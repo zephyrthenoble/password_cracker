@@ -1,6 +1,6 @@
 CC      = g++
-CFLAGS  = 
-LDFLAGS = -Wall
+CFLAGS  = -std=c++11 -Wall
+LDFLAGS = 
 
 all: password_cracker clean
 
