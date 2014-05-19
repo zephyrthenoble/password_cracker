@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#define FILE_ERROR 5
 using namespace std;
 
 bool contains(vector<char>& vec, char& c) {
@@ -16,6 +17,21 @@ bool contains(vector<char>& vec, char& c) {
     return false;
 }
 
+//prints the mapping
+void printmap( map<char, map<char, int> > mapping) {
+    for(map<char, map<char, int> >::iterator it = mapping.begin(); it != mapping.end(); it++) {
+        char key = it->first;
+        map<char, int> val = it->second;
+        cout<<"key "<<key<<endl;
+        for (map<char, int>::iterator it2 = val.begin(); it2 != val.end(); it2++) {
+            char ikey = it2->first;
+            int ival = it2->second;
+            cout<<"\t"<<"value "<<ikey<< " " <<(int)(ikey)<< "\t"<< ival<<endl;
+        }
+    }
+}
+
+//void printarr(Type[]
 int main () {
     //from space to tilde
     int len_unique = 126-32+1;
@@ -60,18 +76,8 @@ int main () {
     for(int x = 0; x < len_unique; x++) {
         cout <<uniques[x]<<endl;
     }
-    for(map<char, map<char, int> >::iterator it = mapping.begin(); it != mapping.end(); it++) {
-        char key = it->first;
-        map<char, int> val = it->second;
-        cout<<"key "<<key<<endl;
-        for (map<char, int>::iterator it2 = val.begin(); it2 != val.end(); it2++) {
-            char ikey = it2->first;
-            int ival = it2->second;
-            cout<<"\t"<<"value "<<ikey<< " " <<(int)(ikey)<< "\t"<< ival<<endl;
-        }
-    }
-  */          
-/*
+    */
+    cout << "starting reading" << endl;
     string line;
     if (myfile.is_open())
     {
@@ -80,10 +86,16 @@ int main () {
             char current='\n';
             char last='\0';
             //iterate through all characters except starting one
+            line.pop_back();
             for (int x = 1; x < (int)line.length(); x++) 
             {
                 current = line[x];
                 last = line[x-1];
+                map<char, int> innermapping = mapping.find(last)->second;
+                bool cur = mapping.count(last);
+                bool las = innermapping.count(current);
+                cout<< cur <<'\t';
+                cout<< las <<endl;
 
                 //find the previous element, find the current element, and increment count
                 mapping.find(last)->second.find(current)->second++;
@@ -93,25 +105,19 @@ int main () {
             //so we map it to \n to indicate the end of a word
             if (last != '\0')
             {
-                cout<< "current "<<(int)(current)<<endl;
+                //cout<< "current "<<(int)(current)<<endl;
                 mapping.find(current)->second.find('\n')->second++;
             }
-            //cout << line << '\n';
+            cout << line << '\n';
         }
     }
     else {
         cout << "Unable to open file"; 
-        return 1;
+        return FILE_ERROR;
     }
-    for(int x = 0; x < len_unique; x++) {
-        char key = uniques[x];
-        cout<<key<<endl;
-        for (int y = 0; y < len_unique; y++) {
-            char val = uniques[y];
-            int num = mapping[key][val];
-            cout<<'\t'<<val<<'\t'<<num<<endl;
-        }     
-    } 
-    */
+
+    cout << "done reading" << endl;
+    printmap(mapping);
+
     return 0;
 }
