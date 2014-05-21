@@ -6,6 +6,17 @@
 #define FILE_ERROR 5
 using namespace std;
 
+const int len_unique = 126-32+1+1;
+
+
+struct Node {
+    int num;
+    char val;
+    bool leaf;
+    Node** children;
+};
+
+
 bool contains(vector<char>& vec, char& c) {
     for(uint x = 0; x < vec.size(); x++)
     {
@@ -34,8 +45,7 @@ void printmap( map<char, map<char, int> > mapping) {
 //void printarr(Type[]
 int main () {
     //from space to tilde
-    int len_unique = 126-32+1;
-    char uniques[len_unique+1];
+    char uniques[len_unique];
     cout <<"len is "<<len_unique<<endl;
 
 
@@ -47,11 +57,10 @@ int main () {
     //while using said array to insert into the mapping
     //
     //goes through all ASCII characters 32-126, and then appends \n to the end 
-    for(int x = 0; x < len_unique; x++) {
+    for(int x = 0; x < len_unique-1; x++) {
         uniques[x] = (char)(32+x);
     }
-    uniques[len_unique] = '\n';
-    len_unique++;
+    uniques[len_unique-1] = '\n';
 
 
     //for each character in uniques other than \n, create a mapping to all 
@@ -60,10 +69,10 @@ int main () {
     //the internal map will have len_unique keys
     for(int x = 0; x < len_unique-1; x++) {
         char key = uniques[x];
-        cout <<key<<endl;
+        //cout <<key<<endl;
         map<char, int> val;
         for (int y = 0; y < len_unique; y++) {
-            cout<<"\t"<<uniques[y]<<endl;
+            //cout<<"\t"<<uniques[y]<<endl;
             if( uniques[y] == '\0') { cout << "found a null val " << y << endl; }
             val.emplace(uniques[y], 1);
         }
@@ -92,10 +101,10 @@ int main () {
                 current = line[x];
                 last = line[x-1];
                 map<char, int> innermapping = mapping.find(last)->second;
-                bool cur = mapping.count(last);
-                bool las = innermapping.count(current);
-                cout<< cur <<'\t';
-                cout<< las <<endl;
+                //bool cur = mapping.count(last);
+                //bool las = innermapping.count(current);
+                //cout<< cur <<'\t';
+                //cout<< las <<endl;
 
                 //find the previous element, find the current element, and increment count
                 mapping.find(last)->second.find(current)->second++;
@@ -108,7 +117,7 @@ int main () {
                 //cout<< "current "<<(int)(current)<<endl;
                 mapping.find(current)->second.find('\n')->second++;
             }
-            cout << line << '\n';
+            //cout << line << '\n';
         }
     }
     else {
@@ -119,5 +128,14 @@ int main () {
     cout << "done reading" << endl;
     printmap(mapping);
 
+    int depth = 3;
+    for( int x = 0; x < depth; x++) {
+        cout<<x;
+    }
+    /*
+    cout <<"enter pass: ";
+    string linein;
+    getline(cin, linein);
+    */
     return 0;
 }
