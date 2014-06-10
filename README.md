@@ -15,3 +15,6 @@ Using this map, the program will
 * Prune already tried outputs
 * Add another layer of nodes to the leaves of the current tree
 * Repeat until password is "found"
+* 
+
+Don't use a tree, use a hash of the previous password, represented by a number, that hits all numbers  (number%total)
